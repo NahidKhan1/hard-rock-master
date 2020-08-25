@@ -27,10 +27,10 @@
     // Display data show
     function showData(data){
 
-        let limitData = data.data.slice(0,10);
+        let limitResult = data.data.slice(0,10);
         showList.innerHTML =`
             
-        ${limitData.map(song => `
+        ${limitResult.map(song => `
         <div class="single-result row align-items-center my-3 p-3">
         <div class="col-md-3">
         <img src="${song.album.cover_small}" >
@@ -52,16 +52,16 @@
     showList.addEventListener('click',ami=>{
         const clickElement = ami.target;
         if(clickElement.tagName === 'BUTTON'){
-            const artist = clickElement.getAttribute('data-artist');
+            const artistName = clickElement.getAttribute('data-artist');
             const songName = clickElement.getAttribute('data-song');
 
-            getLyrics(artist,songName);
+            getLyrics(artistName,songName);
         }
     })
 
     // Lyrics show
-    async function getLyrics(artist,songName){
-        const res = await fetch(`https://api.lyrics.ovh/v1/${artist}/${songName}`)
+    async function getLyrics(artistName,songName){
+        const res = await fetch(`https://api.lyrics.ovh/v1/${artistName}/${songName}`)
         const data = await res.json();
 
         const lyrics = data.lyrics.replace(/\n/, '<br />');
@@ -69,7 +69,7 @@
         const lyricsShow = document.querySelector('.single-lyrics');
         lyricsShow.innerHTML = `
         <button class="btn go-back">&lsaquo;</button>
-        <h2 class="text-success mb-4">${artist} -${songName}</h2>
+        <h2 class="text-success mb-4">${artistName} -${songName}</h2>
         <pre class="lyric text-white">
             ${lyrics}
         </pre>
